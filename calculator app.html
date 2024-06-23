@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calculator</title>
+  <style>
+    .calculator {
+      width: 300px;
+      background-color: #f2f2f2;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 0 auto;
+    }
+    .calculator .display {
+      font-size: 24px;
+      text-align: right;
+      padding: 10px;
+      background-color: white;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    .calculator .keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+    .calculator button {
+      font-size: 18px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      background-color: #e6e6e6;
+      border-radius: 5px;
+    }
+    .calculator button:hover {
+      background-color: #d9d9d9;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="keys">
+      <button onclick="addToDisplay('7')">7</button>
+      <button onclick="addToDisplay('8')">8</button>
+      <button onclick="addToDisplay('9')">9</button>
+      <button onclick="setOperator('+')">+</button>
+      <button onclick="addToDisplay('4')">4</button>
+      <button onclick="addToDisplay('5')">5</button>
+      <button onclick="addToDisplay('6')">6</button>
+      <button onclick="setOperator('-')">-</button>
+      <button onclick="addToDisplay('1')">1</button>
+      <button onclick="addToDisplay('2')">2</button>
+      <button onclick="addToDisplay('3')">3</button>
+      <button onclick="setOperator('*')">*</button>
+      <button onclick="addToDisplay('0')">0</button>
+      <button onclick="addToDisplay('.')">.</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="setOperator('/')">/</button>
+      <button onclick="clearDisplay()">C</button>
+    </div>
+  </div>
+
+  <script>
+    let currentDisplay = '0';
+    let operator = '';
+    let operand1 = '';
+    let operand2 = '';
+
+    function addToDisplay(value) {
+      if (currentDisplay === '0' && value !== '.') {
+        currentDisplay = value;
+      } else {
+        currentDisplay += value;
+      }
+      document.getElementById('display').innerText = currentDisplay;
+    }
+
+    function setOperator(op) {
+      operator = op;
+      operand1 = currentDisplay;
+      currentDisplay = '0';
+      document.getElementById('display').innerText = currentDisplay;
+    }
+
+    function calculate() {
+      operand2 = currentDisplay;
+      let result;
+      switch (operator) {
+        case '+':
+          result = parseFloat(operand1) + parseFloat(operand2);
+          break;
+        case '-':
+          result = parseFloat(operand1) - parseFloat(operand2);
+          break;
+        case '*':
+          result = parseFloat(operand1) * parseFloat(operand2);
+          break;
+        case '/':
+          if (operand2 === '0') {
+            result = 'Error: Division by zero';
+          } else {
+            result = parseFloat(operand1) / parseFloat(operand2);
+          }
+          break;
+        default:
+          result = 'Error: Invalid operation';
+          break;
+      }
+      document.getElementById('display').innerText = result;
+      currentDisplay = result.toString();
+      operator = '';
+      operand1 = '';
+      operand2 = '';
+    }
+
+    function clearDisplay() {
+      currentDisplay = '0';
+      operator = '';
+      operand1 = '';
+      operand2 = '';
+      document.getElementById('display').innerText = currentDisplay;
+    }
+  </script>
+</body>
+</html>
